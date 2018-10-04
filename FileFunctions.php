@@ -8,7 +8,7 @@
  * @param array $headlist 第一行,列名
  * @param $fileName 输出Excel文件名
  */
-function csv_export(array $data = [], array $headlist = [], $fileName)
+function csvExport(array $data = [], array $headlist = [], $fileName)
 {
 
     header('Content-Type: application/vnd.ms-excel');
@@ -52,5 +52,38 @@ function csv_export(array $data = [], array $headlist = [], $fileName)
         }
 
         fputcsv($fp, $row);
+    }
+}
+
+/**
+ * @notes: 读取文件中内容写入到另一文件
+ * @author: KevinRen<330202207@qq.com>
+ * @date: 2018/10/4
+ * @param $read_file_path 读取文件
+ * @param $write_file_path 写入文件
+ * @version: 1.0
+ */
+function readFileToWriteFile($read_file_path, $write_file_path)
+{
+    $is_exist = file_exists($read_file_path) or exit("There is no file");
+
+    $file = fopen($read_file_path, "r") ;
+
+    $data = [];
+
+    $i = 0;
+
+    //输出文本中所有的行，直到文件结束为止。
+    while(! feof($file))
+    {
+        $row_data = json_decode(fgets($file),true);
+        $data[$i] = $row_data;
+        $i++;
+    }
+
+    fclose($file);
+
+    foreach ($data as $key => $val) {
+        file_put_contents($write_file_path, json_encode($val).PHP_EOL, FILE_APPEND);
     }
 }
