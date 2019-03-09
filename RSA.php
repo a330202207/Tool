@@ -5,7 +5,11 @@
  * @date: 2018/12/23
  * @version: 1.0
  * 如密钥长度为 1024 bit，则加密时数据需小于128字节，加上PKCS1Padding本身的11字节信息，所以明文需小于117字节
+ * 私钥：
+ * openssl genrsa -out rsa_private_key.pem 1024
  *
+ * 公钥：
+ * openssl rsa -in rsa_private_key.pem -pubout -out ras_public_key.pem
  */
 
 /**
